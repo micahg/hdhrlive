@@ -1,0 +1,11 @@
+{
+  "name": "HDHRLive",
+  "version": "0.0.1",
+  "description": "A simple server to facilitate live TV on Kodi from old HDHomeRun devices",
+  "main": "server.ts",
+  "dependencies": {
+    "typescript": "*",
+    "express": "*",
+    "@types/express": "*"
+  }
+}
