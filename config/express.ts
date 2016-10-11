@@ -1,10 +1,12 @@
 import * as express from "express";
 import * as channels from "../app/routes/channels";
+import * as devices from "../app/routes/devices";
 
 export function configure() {
   let app = express();
 
   app.get("/channels.m3u", channels.get);
+  app.get("/devices", devices.get);
 
   app.use(express.static("public"));
 

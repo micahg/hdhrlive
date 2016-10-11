@@ -10,6 +10,7 @@
   "files": [
     "config/express.ts",
     "app/routes/channels.ts",
+    "app/routes/devices.ts",
     "server.ts"
   ]
 }
