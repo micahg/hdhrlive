@@ -11,6 +11,9 @@
     "config/express.ts",
     "app/routes/channels.ts",
     "app/routes/devices.ts",
+    "client/app.component.ts",
+    "client/app.module.ts",
+    "client/main.ts",
     "server.ts"
   ]
 }

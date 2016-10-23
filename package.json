@@ -3,9 +3,27 @@
   "version": "0.0.1",
   "description": "A simple server to facilitate live TV on Kodi from old HDHomeRun devices",
   "main": "server.ts",
+  "scripts": {
+    "start": "node server.js",
+    "build": "tsc && gulp copy-client-js"
+  },
   "dependencies": {
-    "typescript": "*",
+    "@angular/common": "*",
+    "@angular/compiler": "*",
+    "@angular/core": "*",
+    "@angular/http": "*",
+    "@angular/platform-browser": "*",
+    "@angular/platform-browser-dynamic": "*",
+    "core-js": "*",
     "express": "*",
-    "@types/express": "*"
+    "reflect-metadata": "*",
+    "systemjs": "*",
+    "typescript": "*",
+    "zone.js": "*"
+  },
+  "devDependencies": {
+    "@types/core-js": "*",
+    "@types/express": "*",
+    "gulp": "*"
   }
 }

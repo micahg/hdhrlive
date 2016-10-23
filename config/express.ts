@@ -8,7 +8,8 @@ export function configure() {
   app.get("/channels.m3u", channels.get);
   app.get("/devices", devices.get);
 
-  app.use(express.static("public"));
+  app.use(express.static("./client/public"));
+  app.use("/node_modules", express.static("./node_modules"));
 
   return app;
 }
