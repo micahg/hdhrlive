@@ -11,12 +11,12 @@ export class HDHRService {
 
   constructor(private http: Http) { }
 
-  getDevices(): Promise<Object[]> {
+  getDevices(): Promise<string[]> {
 
     // get the list of devices
     return this.http.get("/devices")
                .toPromise()
-               .then(response => response.json() as Object[])
+               .then(response => response.json() as string[])
                .catch(reason => {
                  console.error("Unable to get devices");
                  return Promise.reject(reason.message || reason);
