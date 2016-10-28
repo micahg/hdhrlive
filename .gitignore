@@ -1,0 +1,7 @@
+app/*.js*
+app/routes/*.js*
+client/*.js*
+client/public/app
+config/*.js*
+node_modules
+server.js*

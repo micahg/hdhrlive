@@ -2,6 +2,7 @@ import * as express from "express";
 import * as childProcess from "child_process";
 
 export function get(req: express.Request, res: express.Response) {
+  let devices = [];
   const discover = childProcess.spawn("hdhomerun_config", ["discover"]);
 
   // parse off all the units
@@ -10,10 +11,11 @@ export function get(req: express.Request, res: express.Response) {
     let output = data.toString();
     let ids = devRegex.exec(output);
     console.log(`Device ID is ${ids[1]}`);
+    devices.push(ids[1]);
   });
 
   discover.on("close", (code) => {
     console.log("discovery complete");
-    res.send("done");
+    res.json(devices);
   });
 }

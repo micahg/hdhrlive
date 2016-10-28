@@ -6,7 +6,17 @@ HDHomeRun devices that do not have integrated support for modern systems
 
 <!-- show the device list here -->
 <h2>Devices</h2>
-<div>Device information (and the ability to scan) goes here.</div>
+<div>The following devices were found at last scan:</div>
+
+<!-- This UI sucks.... think about a modal to initiate scannign. -->
+<div>
+  <li *ngFor="let device of devices">
+    {{ device }}
+    <button (click)="scanChannels(device)">Scan Channels</button>
+  </li>
+</div>
+
+<div><button (click)="scanDevices()">Scan Devices</button></div>
 
 <!-- show the channel list here -->
 <h2>Channels</h2>

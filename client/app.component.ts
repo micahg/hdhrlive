@@ -1,4 +1,7 @@
 import { Component } from "@angular/core";
+import { Http, Response } from "@angular/http";
+
+import { HDHRService } from "./hdhr.service";
 
 @Component({
   selector: "my-app",
@@ -7,4 +10,31 @@ import { Component } from "@angular/core";
   templateUrl: "./app/app.component.html"
 })
 
-export class AppComponent { }
+export class AppComponent {
+
+  devices = [];
+
+  constructor(private hdhrService: HDHRService) { }
+
+  /**
+   * Scan for devices.
+   */
+  scanDevices() {
+    console.log("Scannign for devices...");
+    this.hdhrService.getDevices()
+    .then(devs => {
+      console.log(`Devices  ${JSON.stringify(devs)}`);
+      this.devices = devs;
+    })
+    .catch(error => {
+      console.error("Unable to get devices.");
+    });
+  }
+
+  /**
+   * Scan channels on a device.
+   */
+   scanChannels(device: string) {
+     console.log(`Scanning device ${device}`);
+   }
+}
