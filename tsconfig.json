@@ -10,6 +10,7 @@
   "files": [
     "config/express.ts",
     "app/hdhr.ts",
+    "app/channel.ts",
     "app/routes/channels.ts",
     "app/routes/devices.ts",
     "app/routes/scan.ts",

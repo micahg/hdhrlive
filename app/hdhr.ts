@@ -1,4 +1,8 @@
 import * as childProcess from "child_process";
+import * as fs from "fs";
+import * as os from "os";
+
+import * as channel from "./channel";
 
 class ScanStatus {
   isScanning: boolean;
@@ -13,8 +17,16 @@ class ScanStatus {
 
 let isScanning = false;
 let chanNum = 67;
+let channels: channel.Channel[];
 
 
+/**
+ * Scan for channels on a device. This is a long process, so this method returns
+ * a status and a percentage complete (so the frontend can poll).
+ *
+ * @param device the device id.
+ * @param operation the operation (start or status)
+ */
 export function scan(device: string, operation: string): ScanStatus {
 
   // if presently scanning, just return the flag indicating so
@@ -35,6 +47,9 @@ export function scan(device: string, operation: string): ScanStatus {
 
   isScanning = true;
   chanNum = 0;
+
+  // this resets the arry
+  channels = [];
 
   /**
    * The channel set command is going to look like:
@@ -58,7 +73,11 @@ export function scan(device: string, operation: string): ScanStatus {
       if (programs != null) {
         let program_num = programs[1];
         let program_name = programs[2];
+
+        let chan = new channel.Channel(program_name, program_num, freq);
         console.log(`${program_name} (${program_num}) on ${freq}`);
+
+        channels.push(chan);
       }
 
       // the way the output comes through its important that the search for the
@@ -73,7 +92,15 @@ export function scan(device: string, operation: string): ScanStatus {
   });
 
   scanner.on("close", (code) => {
+    let channelFile = `${os.tmpdir()}/channels.json`;
     console.log("discovery complete");
+    fs.writeFile(channelFile, JSON.stringify(channels), function(err) {
+      if (err) {
+        console.log("UNABLE TO SAVE CHANNELS");
+      } else {
+        console.log(`Channel list saved to ${channelFile}`);
+      }
+    });
     isScanning = false;
     chanNum = 67;
   });
