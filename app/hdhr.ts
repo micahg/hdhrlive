@@ -4,14 +4,13 @@ import * as os from "os";
 
 import * as channel from "./channel";
 
-class ScanStatus {
-  isScanning: boolean;
-  percentComplete: number;
-  error: string;
+class DeviceChannels {
+  deviceID: string;
+  channels: channel.Channel[];
 
-  constructor(scanning: boolean, progress: number) {
-    this.isScanning = scanning;
-    this.percentComplete = (100 * (progress / 67)) | 0;
+  constructor(id: string, deviceChannels: channel.Channel[]) {
+    this.deviceID = id;
+    this.channels = deviceChannels;
   }
 }
 
@@ -19,6 +18,17 @@ let isScanning = false;
 let chanNum = 67;
 let channels: channel.Channel[];
 
+class ScanStatus {
+  isScanning: boolean;
+  percentComplete: number;
+  error: string;
+  channels: string[];
+
+  constructor(scanning: boolean, progress: number) {
+    this.isScanning = scanning;
+    this.percentComplete = (100 * (progress / 67)) | 0;
+  }
+}
 
 /**
  * Scan for channels on a device. This is a long process, so this method returns
@@ -93,8 +103,9 @@ export function scan(device: string, operation: string): ScanStatus {
 
   scanner.on("close", (code) => {
     let channelFile = `${os.tmpdir()}/channels.json`;
+    let devChans = new DeviceChannels(device, channels);
     console.log("discovery complete");
-    fs.writeFile(channelFile, JSON.stringify(channels), function(err) {
+    fs.writeFile(channelFile, JSON.stringify(devChans), function(err) {
       if (err) {
         console.log("UNABLE TO SAVE CHANNELS");
       } else {
