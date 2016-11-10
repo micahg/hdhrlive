@@ -33,7 +33,7 @@ export class HDHRService {
         success(response.json());
       },
       (error) => failure(error),
-      () => console.log("Channel scan complete.")
+      () =>  {}
     );
   }
 
@@ -49,7 +49,7 @@ export class HDHRService {
         success(response.json());
       },
       (error) => failure(error),
-      () => console.log("Channel scan complete.")
+      () => {}
     );
   }
 }

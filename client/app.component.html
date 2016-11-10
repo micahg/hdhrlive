@@ -11,13 +11,14 @@ HDHomeRun devices that do not have integrated support for modern systems
 <!-- This UI sucks.... think about a modal to initiate scannign. -->
 <div>
   <li *ngFor="let device of devices">
-    {{ device }} {{ percent }}
+    {{ device }}
     <button (click)="scanChannels(device)">Scan Channels</button>
   </li>
 </div>
 
 <div><button (click)="scanDevices()">Scan Devices</button></div>
 
+<div>Scan Percentage:  {{ percent }}</div>
 <!-- show the channel list here -->
 <h2>Channels</h2>
 <div>Chanel information goes here</div>
