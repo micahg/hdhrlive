@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { Http, Response } from "@angular/http";
+import { TimerObservable } from "rxjs/observable/TimerObservable";
 
 import { HDHRService } from "./hdhr.service";
 
@@ -13,6 +14,7 @@ import { HDHRService } from "./hdhr.service";
 export class AppComponent {
 
   devices = [];
+  percent = null;
 
   constructor(private hdhrService: HDHRService) { }
 
@@ -40,7 +42,18 @@ export class AppComponent {
        (result: any) => {
        console.log(`Channel scan returns ${result}`);
        if (result.isScanning === true) {
-         console.log("Scanning is ongoing -- setup pollling");
+         let timer = TimerObservable.create(2000, 2000);
+         let subscription = timer.subscribe(t => {
+           this.hdhrService.channelScanStatus(device, (result: any) => {
+             this.percent = result.percentComplete;
+             if (result.percentComplete === 100) {
+               console.log("Scan complete");
+               subscription.unsubscribe();
+             }
+           }, (error: string) => {
+             console.log("Channel status check failed.");
+           });
+         });
        }
      }, (error: string) => {
        console.log(`Channel scan fails: ${error}`);
