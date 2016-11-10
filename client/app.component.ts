@@ -21,13 +21,12 @@ export class AppComponent {
    */
   scanDevices() {
     console.log("Scannign for devices...");
-    this.hdhrService.getDevices()
-    .then(devs => {
-      console.log(`Devices  ${JSON.stringify(devs)}`);
-      this.devices = devs;
-    })
-    .catch(error => {
-      console.error("Unable to get devices.");
+
+    this.hdhrService.scanDevices((devices: string[]) => {
+      console.log(`Devices ${JSON.stringify(devices)}`);
+      this.devices = devices;
+    }, (error: string) => {
+      console.log(`Unable to scan devices: ${error}`);
     });
   }
 
@@ -35,6 +34,16 @@ export class AppComponent {
    * Scan channels on a device.
    */
    scanChannels(device: string) {
-     console.log(`Scanning device ${device}`);
+     console.log(`Scanning device ${device}...`);
+
+     this.hdhrService.scanChannels(device,
+       (result: any) => {
+       console.log(`Channel scan returns ${result}`);
+       if (result.isScanning === true) {
+         console.log("Scanning is ongoing -- setup pollling");
+       }
+     }, (error: string) => {
+       console.log(`Channel scan fails: ${error}`);
+     });
    }
 }

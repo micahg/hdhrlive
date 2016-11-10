@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Http, Response } from "@angular/http";
+import { Http, Response, URLSearchParams } from "@angular/http";
 
 // import "rxjs/add/operator/toPromise";
 // import * as Rx from "rxjs/Observable";
@@ -11,15 +11,28 @@ export class HDHRService {
 
   constructor(private http: Http) { }
 
-  getDevices(): Promise<string[]> {
+  scanDevices(success: (response: string[]) => any,
+              failure: (error: string) => any) {
+    this.http.get("/devices").subscribe(
+      (response) => success(response.json() as string[]),
+      (error) => failure(error),
+      () => console.log("Device scan complete.")
+    );
+  }
 
-    // get the list of devices
-    return this.http.get("/devices")
-               .toPromise()
-               .then(response => response.json() as string[])
-               .catch(reason => {
-                 console.error("Unable to get devices");
-                 return Promise.reject(reason.message || reason);
-               });
+  scanChannels(device: string,
+               success: (channels: any) => any,
+               failure: (error: string) => any) {
+    let params: URLSearchParams = new URLSearchParams();
+    params.set("device", device);
+    params.set("operation", "start");
+
+    this.http.get("/scan", {search: params}).subscribe(
+      (response) => {
+        console.log(`Scan response is ${JSON.stringify(response.json())}`);
+      },
+      (error) => failure(error),
+      () => console.log("Channel scan complete.")
+    );
   }
 }
