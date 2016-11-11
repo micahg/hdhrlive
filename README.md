@@ -9,3 +9,8 @@ yet.
 
 <h2>Installation</h2>
 Coming soon.
+
+<h2>Development Notes</h3>
+
+kodi udp://:5000
+hdhomerun_config 10319F74 set /tuner0/target 192.168.0.171:5000

@@ -2,21 +2,12 @@ import * as childProcess from "child_process";
 import * as fs from "fs";
 import * as os from "os";
 
-import * as channel from "./channel";
-
-class DeviceChannels {
-  deviceID: string;
-  channels: channel.Channel[];
-
-  constructor(id: string, deviceChannels: channel.Channel[]) {
-    this.deviceID = id;
-    this.channels = deviceChannels;
-  }
-}
+import { Channel } from "./channel";
+import { Device } from "./device";
 
 let isScanning = false;
 let chanNum = 67;
-let channels: channel.Channel[];
+let channels: Channel[];
 
 class ScanStatus {
   isScanning: boolean;
@@ -37,7 +28,7 @@ class ScanStatus {
  * @param device the device id.
  * @param operation the operation (start or status)
  */
-export function scan(device: string, operation: string): ScanStatus {
+export function scan(deviceID: string, operation: string): ScanStatus {
 
   // if presently scanning, just return the flag indicating so
   if (isScanning || operation === "status") {
@@ -53,7 +44,7 @@ export function scan(device: string, operation: string): ScanStatus {
   }
 
   // hdhomerun_config 10319F74 scan 1
-  const scanner = childProcess.spawn("hdhomerun_config", [device, "scan", "1"]);
+  const scanner = childProcess.spawn("hdhomerun_config", [deviceID, "scan", "1"]);
 
   isScanning = true;
   chanNum = 0;
@@ -84,7 +75,7 @@ export function scan(device: string, operation: string): ScanStatus {
         let program_num = programs[1];
         let program_name = programs[2];
 
-        let chan = new channel.Channel(program_name, program_num, freq);
+        let chan = new Channel(program_name, program_num, freq);
         console.log(`${program_name} (${program_num}) on ${freq}`);
 
         channels.push(chan);
@@ -103,9 +94,9 @@ export function scan(device: string, operation: string): ScanStatus {
 
   scanner.on("close", (code) => {
     let channelFile = `${os.tmpdir()}/channels.json`;
-    let devChans = new DeviceChannels(device, channels);
+    let device = new Device(deviceID, channels);
     console.log("discovery complete");
-    fs.writeFile(channelFile, JSON.stringify(devChans), function(err) {
+    fs.writeFile(channelFile, JSON.stringify(device), function(err) {
       if (err) {
         console.log("UNABLE TO SAVE CHANNELS");
       } else {
