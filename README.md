@@ -14,3 +14,6 @@ Coming soon.
 
 kodi udp://:5000
 hdhomerun_config 10319F74 set /tuner0/target 192.168.0.171:5000
+
+kodi has to be listening first or the hdhomerun_config to set the stream target
+fails.

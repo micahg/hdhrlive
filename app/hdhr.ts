@@ -93,16 +93,10 @@ export function scan(deviceID: string, operation: string): ScanStatus {
   });
 
   scanner.on("close", (code) => {
-    let channelFile = `${os.tmpdir()}/channels.json`;
+    // let channelFile = `${os.tmpdir()}/channels.json`;
     let device = new Device(deviceID, channels);
     console.log("discovery complete");
-    fs.writeFile(channelFile, JSON.stringify(device), function(err) {
-      if (err) {
-        console.log("UNABLE TO SAVE CHANNELS");
-      } else {
-        console.log(`Channel list saved to ${channelFile}`);
-      }
-    });
+    saveDevice(device);
     isScanning = false;
     chanNum = 67;
   });
