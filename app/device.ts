@@ -1,11 +1,11 @@
 import { Channel } from "./channel";
 
 export class Device {
-  deviceID: string;
+  id: string;
   channels: Channel[];
 
-  constructor(id: string, deviceChannels: Channel[]) {
-    this.deviceID = id;
+  constructor(deviceID: string, deviceChannels: Channel[]) {
+    this.id = deviceID;
     this.channels = deviceChannels;
   }
 

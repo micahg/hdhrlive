@@ -5,7 +5,8 @@
   "main": "server.ts",
   "scripts": {
     "start": "node server.js",
-    "build": "tsc && gulp copy-client-js"
+    "build": "tsc && gulp copy-client-js",
+    "test": "mocha"
   },
   "dependencies": {
     "@angular/common": "*",
@@ -22,8 +23,13 @@
     "zone.js": "*"
   },
   "devDependencies": {
+    "@types/assert": "*",
+    "@types/chai": "*",
     "@types/core-js": "*",
     "@types/express": "*",
-    "gulp": "*"
+    "@types/mocha": "*",
+    "chai": "*",
+    "gulp": "*",
+    "mocha": "*"
   }
 }

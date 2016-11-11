@@ -109,3 +109,29 @@ export function scan(deviceID: string, operation: string): ScanStatus {
 
   return new ScanStatus(true, chanNum);
 }
+
+export function loadDevices(): Device[] {
+  let filename: string = `${os.tmpdir()}/channels.json`;
+  let devices: Device[];
+  try {
+    devices = JSON.parse(fs.readFileSync(filename).toString());
+  } catch (err) {
+    devices = [];
+  }
+
+  return devices;
+}
+
+export function saveDevice(device: Device) {
+  console.log(`Saving device ${device.id}`);
+  // TODO think of a better place to save this. Maybe configurable?
+  let filename = `${os.tmpdir()}/channels.json`;
+  let devices: Device[] = loadDevices();
+
+  devices.push(device);
+  fs.writeFileSync(filename, JSON.stringify(devices));
+}
+
+export function buildM3U() {
+
+}
