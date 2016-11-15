@@ -28,7 +28,7 @@ my pull request: https://github.com/xbmc/xbmc/pull/10933). Note, that the PR was
 made against v17 (Krypton) so anything earlier wont work.
 
 To setup Kodi, point the simple IPTV plugin at http://localhost:3000/channels.m3u
-and you should be all set.
+(or whatever IP the server runs on) and you should be all set.
 
 ## Status
 
