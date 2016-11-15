@@ -6,7 +6,8 @@ import * as scan from "../app/routes/scan";
 export function configure() {
   let app = express();
 
-  app.get("/channels.m3u", channels.get);
+  app.get("/channels.m3u", channels.getM3U);
+  app.get("/channel", channels.getChannel);
   app.get("/devices", devices.get);
   app.get("/scan", scan.get);
 
@@ -17,7 +18,7 @@ export function configure() {
 }
 
 export function run(app: express.Express) {
-  const server = app.listen(3000, "localhost", () => {
+  const server = app.listen(3000, "0.0.0.0", () => {
     const {address, port} = server.address();
     console.log(`Listing on port ${port}`);
   });

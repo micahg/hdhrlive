@@ -1,6 +1,7 @@
 import * as childProcess from "child_process";
 import * as fs from "fs";
 import * as os from "os";
+import * as express from "express";
 
 import { Channel } from "./channel";
 import { Device } from "./device";
@@ -104,6 +105,27 @@ export function scan(deviceID: string, operation: string): ScanStatus {
   return new ScanStatus(true, chanNum);
 }
 
+export function setChannel(deviceID: string, freq: string, callback: () => any) {
+  // hdhomerun_config 10319F74 set /tuner0/channel auto:491000000
+  let params: any[] = [deviceID, "set", "/tuner0/channel", `auto:${freq}`];
+  const tuner = childProcess.spawn("hdhomerun_config", params);
+
+  tuner.on("close", (code) => {
+    console.log(`Channel set (${code})`);
+    callback();
+  });
+}
+
+export function setTarget(deviceID: string, ip: string, port: string) {
+  // hdhomerun_config 10319F74 set /tuner0/target 192.168.0.171:5000
+  let params: any[] = [deviceID, "set", "/tuner0/target", `${ip}:${port}`];
+  const target = childProcess.spawn("hdhomerun_config", params);
+
+  target.on("close", (code) => {
+    console.log(`Targetted (${JSON.stringify(code)})`);
+  });
+}
+
 export function loadDevices(): Device[] {
   let filename: string = `${os.tmpdir()}/channels.json`;
   let devices: Device[];
@@ -117,15 +139,36 @@ export function loadDevices(): Device[] {
 }
 
 export function saveDevice(device: Device) {
-  console.log(`Saving device ${device.id}`);
   // TODO think of a better place to save this. Maybe configurable?
   let filename = `${os.tmpdir()}/channels.json`;
-  let devices: Device[] = loadDevices();
+  let oldDevices: Device[] = loadDevices();
+  let devices: Device[] = [];
+
+  for (let oldDevice of oldDevices) {
+    if (oldDevice.id !== device.id) {
+      devices.push(oldDevice);
+    }
+  }
 
   devices.push(device);
   fs.writeFileSync(filename, JSON.stringify(devices));
 }
 
-export function buildM3U() {
+export function buildM3U(baseUrl: string): string {
+  let devices: Device[] = loadDevices();
+  let m3u: string = "#EXTM3U\n";
+  let app = express();
 
+  console.log(`URL is ${app.get("port")}`);
+
+  for (let device of devices) {
+    for (let channel of device.channels) {
+      let id: string = `${device.id}_${channel.freq}_${channel.num}`;
+      let name: string = channel.name;
+      m3u += `#EXTINF:-1 tvg-id="${id}" tvg-name="${name}",${name}\n`;
+      m3u += `${baseUrl}/channel?device=${device.id}&freq=${channel.freq}&prog=${channel.num}\n`;
+    }
+  }
+
+  return m3u;
 }
