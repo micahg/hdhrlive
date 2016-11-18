@@ -12,7 +12,7 @@ Presumably, other non-kodi players could also use this as a backend if they
 support the simple IPTV format. More information on that format is available
 here: https://github.com/afedchin/xbmc-addon-iptvsimple/wiki/IPTV-Simple-Home
 
-** IMPORTANT ** This only works with the forthcoming Kodi v17 or later. There
+**IMPORTANT** This only works with the forthcoming Kodi v17 or later. There
 was a change required in Kodi to get it working. More details on that are here:
 https://github.com/xbmc/xbmc/pull/10933
 
