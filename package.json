@@ -16,6 +16,7 @@
     "@angular/http": "~2.0.0",
     "@angular/platform-browser": "~2.0.0",
     "@angular/platform-browser-dynamic": "~2.0.0",
+    "@ng-bootstrap/ng-bootstrap": "^1.0.0-alpha.13",
     "bootstrap": "^4.0.0-alpha.5",
     "core-js": "*",
     "express": "*",
