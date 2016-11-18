@@ -1,11 +1,16 @@
 # HDHomeRun Live
 
-This is an attempt to serve live TV from older HDHomeRun units in a simple IPTV
-compatible format.
+This is a web-app that allows you to serve live TV from older HDHomeRun units in
+a simple IPTV compatible format.  The hardware targetted is the now unsupported
+HDHR3 series of devices that do not integrate with Kodi.
 
-This is a node.js server that can be run on a linux machine with the
-hdhomerun_config utility. It is written in typescript... because I wanted to
-learn typescript -- so forgive my beginners mistakes.
+The server uses node.js and is written in typescript. Through an angular
+frontend, it allows you to add devices, scan channels, and then serve them to
+Kodi.
+
+Presumably, other non-kodi players could also use this as a backend if they
+support the simple IPTV format. More information on that format is available
+here: https://github.com/afedchin/xbmc-addon-iptvsimple/wiki/IPTV-Simple-Home
 
 ## Installation
 
@@ -47,5 +52,6 @@ To setup Kodi, point the simple IPTV plugin at http://localhost:3000/channels.m3
 
 **TODO**
 
-* Everything in the **Not Working** section
 * Configure where stuff is stored (eg: stop using /tmp)
+* Store the devices and channel in memory after startup
+* Everything in the **Not Working** section
