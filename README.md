@@ -12,6 +12,10 @@ Presumably, other non-kodi players could also use this as a backend if they
 support the simple IPTV format. More information on that format is available
 here: https://github.com/afedchin/xbmc-addon-iptvsimple/wiki/IPTV-Simple-Home
 
+** IMPORTANT ** This only works with the forthcoming Kodi v17 or later. There
+was a change required in Kodi to get it working. More details on that are here:
+https://github.com/xbmc/xbmc/pull/10933
+
 ## Installation
 
 `npm install`
@@ -28,9 +32,7 @@ Setup is easy -- browse to localhost:3000 (or whatever IP the server runs on).
 * Scan channels
 
 At this point, the server will have stored off the successful channels and the
-API will be able to act as a simple IPTV provider for Kodi (provided they accept
-my pull request: https://github.com/xbmc/xbmc/pull/10933). Note, that the PR was
-made against v17 (Krypton) so anything earlier wont work.
+API will be able to act as a simple IPTV provider for Kodi.
 
 To setup Kodi, point the simple IPTV plugin at http://localhost:3000/channels.m3u
 (or whatever IP the server runs on) and you should be all set.
