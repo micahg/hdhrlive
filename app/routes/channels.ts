@@ -10,6 +10,20 @@ export function getM3U(req: Request, res: Response) {
   res.send(m3u);
 }
 
+
+export function getChannels(req: Request, res: Response) {
+
+  // ensure the device is specified in the query
+  if (!("device" in req.query)) {
+    console.log("[getChannels] No device specified");
+    res.status(400).send("No device specified");
+    return;
+  }
+
+  res.json(hdhr.getChannels(req.query.device));
+}
+
+
 export function getChannel(req: Request, res: Response) {
 
   // ensure the device is specified in the query

@@ -17,6 +17,6 @@ export function get(req: express.Request, res: express.Response) {
     return;
   }
 
-  let scanStatus = hdhr.scan(req.query.device, req.query.operation);
+  let scanStatus = hdhr.scanChannels(req.query.device, req.query.operation);
   res.status(200).json(scanStatus);
 }

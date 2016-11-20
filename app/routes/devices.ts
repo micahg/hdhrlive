@@ -1,21 +1,19 @@
 import * as express from "express";
 import * as childProcess from "child_process";
 
-export function get(req: express.Request, res: express.Response) {
-  let devices = [];
-  const discover = childProcess.spawn("hdhomerun_config", ["discover"]);
+import * as hdhr from "../hdhr";
 
-  // parse off all the units
-  discover.stdout.on("data", (data) => {
-    let devRegex = /device (.*?) found/g;
-    let output = data.toString();
-    let ids = devRegex.exec(output);
-    console.log(`Device ID is ${ids[1]}`);
-    devices.push(ids[1]);
-  });
-
-  discover.on("close", (code) => {
-    console.log("discovery complete");
+/**
+ * Start scanning for HDHomeRun Deviecs
+ */
+export function scan(req: express.Request, res: express.Response) {
+  hdhr.scanDevices((devices) => {
     res.json(devices);
   });
+}
+
+export function get(req: express.Request, res: express.Response) {
+  console.log("Getting devices...");
+  let devices: string[] = hdhr.getDevices();
+  res.json(devices);
 }

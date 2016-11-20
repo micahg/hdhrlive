@@ -4,25 +4,51 @@
 <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <h1>HDHomeRun Live</h1>
-<div>This is an attempt to squeeze a little more life out of the legacy
+<p class="lead">This is an attempt to squeeze a little more life out of the legacy
 HDHomeRun devices that do not have integrated support for modern systems
-(such as Kodi).</div>
+(such as Kodi).</p>
+
+<p>To get started, scan for devices, and then for each device you find, scan
+for channels.</p>
 
 <!-- show the device list here -->
 <h2>Devices</h2>
 <div>The following devices were found at last scan:</div>
 
-<!-- This UI sucks.... think about a modal to initiate scannign. -->
-<div>
-  <li *ngFor="let device of devices">
-    {{ device }}
-    <button (click)="scanChannels(device)">Scan Channels</button>
-  </li>
+<div *ngIf="devices.length == 0">
+  <ngb-alert>
+    No devices found.
+  </ngb-alert>
 </div>
 
-<div><button (click)="scanDevices()">Scan Devices</button></div>
+<div *ngFor="let device of devices">
+  <button type="button" class="btn btn-outline-primary"
+          (click)="showDevice(device, content)">{{ device }}</button>
+</div>
+
+<hr/>
+<div>
+  <button type="button" class="btn btn-outline-primary"
+          (click)="scanDevices()">Scan Devices</button>
+</div>
 
 <div>Scan Percentage:  {{ percent }}</div>
-<!-- show the channel list here -->
-<h2>Channels</h2>
-<div>Chanel information goes here</div>
+
+<template id="deviceModal" #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">Device ID: <em>{{ device }}</em></h4>
+  </div>
+  <div class="modal-body">
+    <div *ngFor="let channel of channels">
+      {{ channel.name }}
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
+  </div>
+</template>
+
+<template ngbModalContainer></template>

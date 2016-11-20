@@ -1,7 +1,8 @@
-import { Component } from "@angular/core";
+import { Component, AfterViewInit } from "@angular/core";
 import { Http, Response } from "@angular/http";
 import { TimerObservable } from "rxjs/observable/TimerObservable";
 
+import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import { HDHRService } from "./hdhr.service";
 
 @Component({
@@ -11,13 +12,36 @@ import { HDHRService } from "./hdhr.service";
   templateUrl: "./app/app.component.html"
 })
 
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
 
+  device: string = "";
   devices = [];
+  channels = [];
   percent = null;
 
-  constructor(private hdhrService: HDHRService) { }
+  constructor(private hdhrService: HDHRService,
+              private modalService: NgbModal) { }
 
+  ngAfterViewInit() {
+    this.hdhrService.loadDevices((devices: string[]) => {
+      this.devices = devices;
+    });
+  }
+
+  showDevice(device: string, content: any) {
+    console.log(`Showing device...`);
+    // let modal = document.getElementById("deviceModal");
+    this.device = device;
+    this.hdhrService.loadChannels(device, (channels) => {
+      this.channels = channels;
+      console.log(`Got channels ${JSON.stringify(channels)}`);
+      this.modalService.open(content).result.then((result) => {
+        console.log(`Closed with ${result}`);
+      }, (reason) => {
+        console.log(`Dismissed`);
+      });
+    });
+  }
   /**
    * Scan for devices.
    */

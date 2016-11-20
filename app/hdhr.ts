@@ -23,13 +23,73 @@ class ScanStatus {
 }
 
 /**
+ * Get the devices already loaded.
+ */
+export function getDevices(): string[] {
+  let devices: Device[] = loadDevices();
+  let result: string[] = [];
+
+  for (let device of devices) {
+    result.push(device.id);
+  }
+
+  return result;
+}
+
+
+/**
+ * Scan for devices.
+ */
+export function scanDevices(callback: (devices: string[]) => any) {
+  let devs: string[] = [];
+  const discover = childProcess.spawn("hdhomerun_config", ["discover"]);
+
+  // parse off all the units
+  discover.stdout.on("data", (data) => {
+    console.log(`${data}`);
+    let devRegex = /device (.*?) found/g;
+    let output = data.toString();
+    let ids = devRegex.exec(output);
+    if (ids == null) {
+      console.log("No devices found");
+    } else {
+      console.log(`result is ${ids}`);
+      console.log(`Device ID is ${ids[1]}`);
+      devs.push(ids[1]);
+    }
+  });
+
+  discover.on("close", (code) => {
+    callback(devs);
+  });
+}
+
+
+/**
+ * Get the list of scanned channels.
+ */
+export function getChannels(deviceID: string): Channel[] {
+  let devices: Device[] = loadDevices();
+  let channels: Channel[] = [];
+
+  for (let device of devices) {
+    if (deviceID === device.id) {
+      return device.channels;
+    }
+  }
+
+  return channels;
+}
+
+
+/**
  * Scan for channels on a device. This is a long process, so this method returns
  * a status and a percentage complete (so the frontend can poll).
  *
  * @param device the device id.
  * @param operation the operation (start or status)
  */
-export function scan(deviceID: string, operation: string): ScanStatus {
+export function scanChannels(deviceID: string, operation: string): ScanStatus {
 
   // if presently scanning, just return the flag indicating so
   if (isScanning || operation === "status") {

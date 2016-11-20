@@ -8,6 +8,8 @@ export function configure() {
 
   app.get("/channels.m3u", channels.getM3U);
   app.get("/channel", channels.getChannel);
+  app.get("/channels", channels.getChannels);
+  app.get("/scandevices", devices.scan);
   app.get("/devices", devices.get);
   app.get("/scan", scan.get);
 
