@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Http, Response, URLSearchParams } from "@angular/http";
+import * as querystring from "querystring";
 
 // import "rxjs/add/operator/toPromise";
 // import * as Rx from "rxjs/Observable";
@@ -70,5 +71,37 @@ export class HDHRService {
       (error) => failure(error),
       () => {}
     );
+  }
+
+  /**
+   * Call the channel deletion api.
+   */
+  deleteChannel(device: string, channel: any,
+                callback: (success: boolean) => any) {
+
+    let path = `/channel/${device}/${channel.freq}/${channel.num}`;
+    let data = { "device" : device, "channel" : channel };
+    console.log(`Service delete ${path}`);
+
+    this.http.delete(path).subscribe(
+      (response) => callback(true),
+      (error) => callback(false),
+      () => {}
+    );
+
+    /*this.http.delete("/channel").subscribe(
+      (response) => callback(true),
+      (error) => callback(false),
+      () => {}
+    );*/
+
+    /*this.http.post("/channel", data).subscribe(
+      (response) => {
+        callback(true);
+      },
+      (error) => {
+        callback(false);
+      },
+      () => {});*/
   }
 }

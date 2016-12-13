@@ -57,7 +57,30 @@ export function getChannel(req: Request, res: Response) {
       hdhr.setTarget(req.query.device, req.ip, "5000");
     }, 500);
   });
+}
 
 
-  // res.send("udp://:5000\n");
+export function deleteChannel(req: Request, res: Response) {
+
+  if (!("device" in req.params)) {
+    console.log("No device spefieid in delete.");
+    res.status(400).send("No device in DELETE request");
+    return;
+  }
+
+  if (!("freq" in req.params)) {
+    console.log("No frequency specified for delete.");
+    res.status(400).send("No frequency in DELETE request");
+    return;
+  }
+
+  if (!("prog" in req.params)) {
+    console.log("No program ID specified for delete");
+    res.status(400).send("No program ID specified for delete");
+    return;
+  }
+
+  hdhr.deleteChannel(req.params.device, req.params.freq, req.params.prog);
+  console.log(`Deleting ${JSON.stringify(req.params)}`);
+  res.status(200).send();
 }

@@ -16,7 +16,6 @@
     "app/routes/devices.ts",
     "app/routes/scan.ts",
     "client/hdhr.service.ts",
-    "client/device.modal.ts",
     "client/app.component.ts",
     "client/app.module.ts",
     "client/main.ts",

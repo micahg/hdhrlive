@@ -1,5 +1,5 @@
-import * as childProcess from "child_process";
 import * as fs from "fs";
+import * as childProcess from "child_process";
 import * as os from "os";
 import * as express from "express";
 
@@ -9,6 +9,7 @@ import { Device } from "./device";
 let isScanning = false;
 let chanNum = 67;
 let channels: Channel[];
+let devices: Device[] = null;
 
 class ScanStatus {
   isScanning: boolean;
@@ -187,8 +188,10 @@ export function setTarget(deviceID: string, ip: string, port: string) {
 }
 
 export function loadDevices(): Device[] {
+
+  devices = [];
+
   let filename: string = `${os.tmpdir()}/channels.json`;
-  let devices: Device[];
   try {
     devices = JSON.parse(fs.readFileSync(filename).toString());
   } catch (err) {
@@ -231,4 +234,34 @@ export function buildM3U(baseUrl: string): string {
   }
 
   return m3u;
+}
+
+export function deleteChannel(deviceID: string, freq: string, prog: string): boolean {
+  let devices: Device[] = loadDevices();
+
+  for (let device of devices) {
+    if (device.id !== deviceID) {
+      continue;
+    }
+
+    let channels: Channel[] = device.channels;
+    let idx: number = 0;
+
+    for (let channel of channels) {
+      if ((channel.freq === freq) && (channel.num === prog)) {
+        console.log(`Deleting channel ${JSON.stringify(channel)}`);
+        break;
+      }
+      idx++;
+    }
+
+    channels.splice(idx, 1);
+    saveDevice(device);
+
+    return true;
+  }
+
+  console.log(`Unable to delete ${freq}:${prog} from ${deviceID}`);
+
+  return false;
 }

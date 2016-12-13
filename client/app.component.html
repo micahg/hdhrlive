@@ -42,9 +42,23 @@ for channels.</p>
     <h4 class="modal-title">Device ID: <em>{{ device }}</em></h4>
   </div>
   <div class="modal-body">
-    <div *ngFor="let channel of channels">
-      {{ channel.name }}
-    </div>
+    <table>
+      <tr *ngFor="let channel of channels">
+        <td width="99%">{{ channel.name }}</td>
+        <td>
+          <button type="button" class="btn btn-outline-primary btn-lg"
+                  aria-label="Left Align" (click)="editChannel(device, channel)">
+            <img src="images/glyphicons-31-pencil.png"/> Edit
+          </button>
+        </td>
+        <td>
+          <button type="button" class="btn btn-outline-primary btn-lg"
+                  aria-label="Left Align" (click)="deleteChannel(device, channel)">
+            <img src="images/glyphicons-17-bin.png"/> Delete
+          </button>
+        </td>
+      </tr>
+    </table>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>

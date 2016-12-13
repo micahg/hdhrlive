@@ -1,4 +1,5 @@
 import * as express from "express";
+import * as bodyParser from "body-parser";
 import * as channels from "../app/routes/channels";
 import * as devices from "../app/routes/devices";
 import * as scan from "../app/routes/scan";
@@ -6,8 +7,12 @@ import * as scan from "../app/routes/scan";
 export function configure() {
   let app = express();
 
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({extended: true}));
+
   app.get("/channels.m3u", channels.getM3U);
   app.get("/channel", channels.getChannel);
+  app.delete("/channel/:device/:freq/:prog", channels.deleteChannel);
   app.get("/channels", channels.getChannels);
   app.get("/scandevices", devices.scan);
   app.get("/devices", devices.get);

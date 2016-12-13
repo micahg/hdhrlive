@@ -38,7 +38,7 @@ export class AppComponent implements AfterViewInit {
       this.modalService.open(content).result.then((result) => {
         console.log(`Closed with ${result}`);
       }, (reason) => {
-        console.log(`Dismissed`);
+        console.log(`Dismissed ${JSON.stringify(reason)}`);
       });
     });
   }
@@ -81,6 +81,28 @@ export class AppComponent implements AfterViewInit {
        }
      }, (error: string) => {
        console.log(`Channel scan fails: ${error}`);
+     });
+   }
+
+   /**
+    * Trigger editing a channel... probably another modal.
+    */
+   editChannel(device: any, channel: any) {
+     console.log(`Editing ${JSON.stringify(channel)} from ${JSON.stringify(device)}`);
+   }
+
+   /**
+    * Trigger deleting a channel.
+    */
+   deleteChannel(device: any, channel: any) {
+     console.log(`Deleting ${JSON.stringify(channel)} from ${JSON.stringify(device)}`);
+     this.hdhrService.deleteChannel(device, channel, (success) => {
+       console.log(`Success is ${JSON.stringify(success)}`);
+       let index = this.channels.indexOf(channel);
+       if (index > -1) {
+         this.channels.splice(index, 1);
+         console.log(`Channels now ${JSON.stringify(this.channels)}`);
+       }
      });
    }
 }

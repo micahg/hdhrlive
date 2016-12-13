@@ -17,6 +17,7 @@
     "@angular/platform-browser": "~2.0.0",
     "@angular/platform-browser-dynamic": "~2.0.0",
     "@ng-bootstrap/ng-bootstrap": "^1.0.0-alpha.13",
+    "body-parser": "^1.15.2",
     "bootstrap": "^4.0.0-alpha.5",
     "core-js": "*",
     "express": "*",
@@ -28,6 +29,7 @@
   },
   "devDependencies": {
     "@types/assert": "*",
+    "@types/body-parser": "0.0.33",
     "@types/chai": "*",
     "@types/core-js": "*",
     "@types/express": "*",
