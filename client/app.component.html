@@ -61,8 +61,28 @@ for channels.</p>
     </table>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
+    <button type="button" class="btn btn-outline-primary"
+            (click)="scanChannels(scan)">Scan</button>
+    <button type="button" class="btn btn-secondary"
+            (click)="c('Close click')">Close</button>
+  </div>
+</template>
+
+<template id="scanModal" #scan let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">Scanning device <em>{{ device }}</em></h4>
+  </div>
+  <div class="modal-body">
+    <ngb-progressbar type="info" [value]="percent"></ngb-progressbar>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary"
+            (click)="c('Close click')">Close</button>
   </div>
 </template>
 
 <template ngbModalContainer></template>
+<!--<ngbd-progressbar-basic></ngbd-progressbar-basic>-->

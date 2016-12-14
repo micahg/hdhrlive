@@ -59,16 +59,22 @@ export class AppComponent implements AfterViewInit {
   /**
    * Scan channels on a device.
    */
-   scanChannels(device: string) {
-     console.log(`Scanning device ${device}...`);
+   scanChannels(scan) {
+     console.log(`Scanning device ${this.device}...`);
 
-     this.hdhrService.scanChannels(device,
+     this.modalService.open(scan).result.then((result) => {
+       console.log(`Closed with ${result}`);
+     }, (reason) => {
+       console.log(`Dismissed ${JSON.stringify(reason)}`);
+     });
+
+     this.hdhrService.scanChannels(this.device,
        (result: any) => {
        console.log(`Channel scan returns ${result}`);
        if (result.isScanning === true) {
          let timer = TimerObservable.create(2000, 2000);
          let subscription = timer.subscribe(t => {
-           this.hdhrService.channelScanStatus(device, (result: any) => {
+           this.hdhrService.channelScanStatus(this.device, (result: any) => {
              this.percent = result.percentComplete;
              if (result.percentComplete === 100) {
                console.log("Scan complete");
