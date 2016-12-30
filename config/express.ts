@@ -18,7 +18,7 @@ export function configure() {
   app.get("/devices", devices.get);
   app.get("/scan", scan.get);
 
-  app.use(express.static("./client/public"));
+  app.use(express.static("./public"));
   app.use("/node_modules", express.static("./node_modules"));
 
   return app;

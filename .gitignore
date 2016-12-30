@@ -2,7 +2,7 @@ app/*.js*
 app/routes/*.js*
 client/*.js*
 client/public/app
-config/*.js*
+config\/*.js*
 test/*.js*
 node_modules
 server.js*

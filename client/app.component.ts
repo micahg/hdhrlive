@@ -9,7 +9,7 @@ import { HDHRService } from "./hdhr.service";
   selector: "my-app",
   // even though this is in the same folder in version control, we need the
   // relative path at runtime, which is in the app folder.
-  templateUrl: "./app/app.component.html"
+  templateUrl: "./app.component.html"
 })
 
 export class AppComponent implements AfterViewInit {

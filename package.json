@@ -4,8 +4,9 @@
   "description": "A simple server to facilitate live TV on Kodi from old HDHomeRun devices",
   "main": "server.ts",
   "scripts": {
-    "start": "node server.js",
-    "build": "tsc && gulp copy-client-js",
+    "start": "node ./server.js",
+    "build": "webpack && gulp copy-client-js",
+    "pack": "webpack",
     "test": "mocha"
   },
   "dependencies": {
@@ -25,17 +26,16 @@
     "rxjs": "*",
     "systemjs": "*",
     "typescript": "*",
-    "zone.js": "*"
-  },
-  "devDependencies": {
-    "@types/assert": "*",
-    "@types/body-parser": "0.0.33",
-    "@types/chai": "*",
-    "@types/core-js": "*",
     "@types/express": "*",
     "@types/mocha": "*",
     "chai": "*",
     "gulp": "*",
-    "mocha": "*"
+    "html-loader": "^0.4.4",
+    "html-webpack-plugin": "^2.24.1",
+    "mocha": "*",
+    "nodemon": "^1.11.0",
+    "npm-run-all": "^3.1.2",
+    "ts-loader": "^1.3.3",
+    "webpack": "^1.14.0"
   }
 }
