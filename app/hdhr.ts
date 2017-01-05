@@ -43,7 +43,9 @@ export function getDevices(): string[] {
  */
 export function scanDevices(callback: (devices: string[]) => any) {
   let devs: string[] = [];
-  const discover = childProcess.spawn("hdhomerun_config", ["discover"]);
+  const discover = childProcess.spawn("hdhomerun_config", ["discover"]).on("error", (error) => {
+    console.log(error);
+  });
 
   // parse off all the units
   discover.stdout.on("data", (data) => {
@@ -106,7 +108,9 @@ export function scanChannels(deviceID: string, operation: string): ScanStatus {
   }
 
   // hdhomerun_config 10319F74 scan 1
-  const scanner = childProcess.spawn("hdhomerun_config", [deviceID, "scan", "1"]);
+  const scanner = childProcess.spawn("hdhomerun_config", [deviceID, "scan", "1"]).on("error", (error) => {
+    console.log(error);
+  });
 
   isScanning = true;
   chanNum = 0;
