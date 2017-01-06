@@ -3,6 +3,7 @@ import * as bodyParser from "body-parser";
 import * as channels from "../app/routes/channels";
 import * as devices from "../app/routes/devices";
 import * as scan from "../app/routes/scan";
+import * as config from "./config";
 
 export function configure() {
   let app = express();
@@ -25,9 +26,11 @@ export function configure() {
 }
 
 export function run(app: express.Express) {
-  const server = app.listen(3000, "0.0.0.0", () => {
+
+  const server = app.listen(config.port, config.address, () => {
     const {address, port} = server.address();
-    console.log(`Listing on port ${port}`);
+    console.log(`Listing on port ${address}:${port}`);
   });
+
   return server;
 }

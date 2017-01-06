@@ -46,14 +46,13 @@ To setup Kodi, point the simple IPTV plugin at http://localhost:3000/channels.m3
 
 **Not Working**:
 
-* A good UI
-* Using more than one tuner
-* Channel editing/deletion
+* Channel editing
 * Channel logos
-* Guide data
+* Guide data (probably never going to happen)
 
 **TODO**
 
+* Fix modal size when there are no channels
 * Configure where stuff is stored (eg: stop using /tmp)
 * Store the devices and channel in memory after startup
 * Add modal for scanning progress
