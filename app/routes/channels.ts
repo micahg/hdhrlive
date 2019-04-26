@@ -1,15 +1,18 @@
 import { Request, Response }  from "express";
 import * as hdhr from "../hdhr";
-// import * as childProcess from "child_process";
 
-export function getM3U(req: Request, res: Response) {
+export function getChannelsM3U(req: Request, res: Response) {
   let baseUrl: string = `${req.protocol}://${req.headers["host"]}`;
   console.log("get request for channel list");
-  let m3u: string = hdhr.buildM3U(baseUrl);
+  let m3u: string = hdhr.buildM3U(baseUrl, req.ip);
   console.log(`M3U is...\n${m3u}`);
   res.send(m3u);
 }
 
+export function getChannelsJSON(req: Request, res: Response) {
+  let baseUrl: string = `${req.protocol}://${req.headers["host"]}`;
+  res.json(hdhr.buildJSON(baseUrl));
+}
 
 export function getChannels(req: Request, res: Response) {
 
@@ -50,7 +53,7 @@ export function getChannel(req: Request, res: Response) {
 
   hdhr.setChannel(req.query.device, req.query.freq, () => {
     console.log("Tuning successful, redirecting...");
-    res.redirect("udp://:5000");
+    res.redirect(`udp://${req.ip}:5000`);
     setTimeout(() => {
       // start broadcasting
       console.log(`IP is ${JSON.stringify(req.ip)}`);

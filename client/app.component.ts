@@ -38,7 +38,7 @@ export class AppComponent implements AfterViewInit {
       this.modalService.open(content).result.then((result) => {
         console.log(`Closed with ${result}`);
       }, (reason) => {
-        console.log(`Dismissed ${JSON.stringify(reason)}`);
+        console.error(`Dismissed ${JSON.stringify(reason)}`);
       });
     });
   }

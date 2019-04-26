@@ -11,7 +11,8 @@ export function configure() {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({extended: true}));
 
-  app.get("/channels.m3u", channels.getM3U);
+  app.get("/channels.m3u", channels.getChannelsM3U);
+  app.get("/channels.json", channels.getChannelsJSON);
   app.get("/channel", channels.getChannel);
   app.delete("/channel/:device/:freq/:prog", channels.deleteChannel);
   app.get("/channels", channels.getChannels);

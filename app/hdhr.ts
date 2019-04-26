@@ -173,6 +173,7 @@ export function scanChannels(deviceID: string, operation: string): ScanStatus {
 export function setChannel(deviceID: string, freq: string, callback: () => any) {
   // hdhomerun_config 10319F74 set /tuner0/channel auto:491000000
   let params: any[] = [deviceID, "set", "/tuner0/channel", `auto:${freq}`];
+  console.log(`Running \`hdhomerun_config ${params.join(' ')}\``);
   const tuner = childProcess.spawn("hdhomerun_config", params);
 
   tuner.on("close", (code) => {
@@ -184,6 +185,7 @@ export function setChannel(deviceID: string, freq: string, callback: () => any) 
 export function setTarget(deviceID: string, ip: string, port: string) {
   // hdhomerun_config 10319F74 set /tuner0/target 192.168.0.171:5000
   let params: any[] = [deviceID, "set", "/tuner0/target", `${ip}:${port}`];
+  console.log(`Running \`hdhomerun_config ${params.join(' ')}\``);
   const target = childProcess.spawn("hdhomerun_config", params);
 
   target.on("close", (code) => {
@@ -221,12 +223,10 @@ export function saveDevice(device: Device) {
   fs.writeFileSync(filename, JSON.stringify(devices));
 }
 
-export function buildM3U(baseUrl: string): string {
+export function buildM3U(baseUrl: string, ip: any): string {
   let devices: Device[] = loadDevices();
   let m3u: string = "#EXTM3U\n";
   let app = express();
-
-  console.log(`URL is ${app.get("port")}`);
 
   for (let device of devices) {
     for (let channel of device.channels) {
@@ -238,6 +238,21 @@ export function buildM3U(baseUrl: string): string {
   }
 
   return m3u;
+}
+
+export function buildJSON(baseUrl: string): Device[] {
+  let items = [];
+  for (let device of loadDevices()) {
+    for (let channel of device.channels) {
+      let item = {
+        url: `${baseUrl}/channel?device=${device.id}&freq=${channel.freq}&prog=${channel.num}`,
+        name: channel['name']
+      }
+      items.push(item);
+    }
+  }
+
+  return items;
 }
 
 export function deleteChannel(deviceID: string, freq: string, prog: string): boolean {

@@ -57,3 +57,10 @@ To setup Kodi, point the simple IPTV plugin at http://localhost:3000/channels.m3
 * Store the devices and channel in memory after startup
 * Add modal for scanning progress
 * Everything in the **Not Working** section
+
+
+## Docker
+
+```docker run -e "NODE_ENV=production" --network host micah/hdhrlive```
+
+host networking required because udb broadcast used by hdhomerun

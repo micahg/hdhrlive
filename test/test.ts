@@ -92,7 +92,7 @@ describe("hdhr", function() {
   });
 
   describe("Build m3u", function() {
-    let m3u: string = hdhr.buildM3U("base");
+    let m3u: string = hdhr.buildM3U("base", "192.168.1.2");
     console.log(m3u);
 
     it ("Should not be empty", function() {

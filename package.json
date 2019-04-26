@@ -6,6 +6,9 @@
   "scripts": {
     "start": "node ./server.js",
     "build": "webpack && gulp copy-client-js",
+    "webpack": "webpack",
+    "gulp": "gulp copy-client-js",
+    "docker": "docker build -t micah/hdhrlive .",
     "pack": "webpack",
     "test": "mocha"
   },
@@ -13,7 +16,11 @@
     "type": "git",
     "url": "https://github.com/micahg/hdhrlive"
   },
-  "files": [ "server.js", "pm2.json", "public/"],
+  "files": [
+    "server.js",
+    "pm2.json",
+    "public/"
+  ],
   "dependencies": {
     "@angular/common": "^2.4.1",
     "@angular/compiler": "^2.4.1",
@@ -27,7 +34,6 @@
     "bootstrap": "^4.0.0-alpha.5",
     "core-js": "^2.4.1",
     "express": "^4.14.0",
-    "gulp": "^3.9.1",
     "reflect-metadata": "^0.1.9",
     "rxjs": "^5.0.2",
     "zone.js": "^0.7.4"
@@ -37,6 +43,7 @@
     "@types/express": "^4.0.34",
     "@types/mocha": "^2.2.35",
     "chai": "^3.5.0",
+    "gulp": "^4.0.0",
     "html-loader": "^0.4.4",
     "html-webpack-plugin": "^2.26.0",
     "mocha": "^3.2.0",
